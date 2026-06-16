@@ -317,4 +317,8 @@ scripts/build-binaries.mjs   Bun cross-compile of the five OS/arch executables
 .env.example          configuration template (optional; the GUI replaces hand-editing)
 ```
 
-TODO before distributing externally: add a LICENSE, pin a tested codex version, sign the binaries.
+TODO before distributing externally: pin a tested codex version, sign the binaries.
+
+## License
+
+[MIT](LICENSE) — free to use, modify and redistribute; keep the copyright notice. No warranty.

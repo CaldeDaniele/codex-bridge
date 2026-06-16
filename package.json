@@ -2,6 +2,7 @@
   "name": "codex-bridge",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "description": "HTTP gateway that exposes a local `codex app-server` (JSON-RPC over stdio) as a Cursor-shaped API, so the digital-concierge codex-runner integration can drive OpenAI Codex on this host. One-click self-contained binary with a local config GUI. Zero runtime dependencies.",
   "engines": {
