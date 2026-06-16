@@ -1,0 +1,17 @@
+{
+  "name": "codex-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "HTTP gateway that exposes a local `codex app-server` (JSON-RPC over stdio) as a Cursor-shaped API, so the digital-concierge codex-runner integration can drive OpenAI Codex on this host. One-click self-contained binary with a local config GUI. Zero runtime dependencies.",
+  "engines": {
+    "node": ">=20.6"
+  },
+  "scripts": {
+    "start": "bun src/server.mjs",
+    "start:node": "node --env-file-if-exists=.env src/server.mjs",
+    "build": "bun build src/server.mjs --target=node --outfile dist/codex-bridge.mjs",
+    "build:binaries": "bun run scripts/build-binaries.mjs",
+    "start:bundle": "node --env-file-if-exists=.env dist/codex-bridge.mjs"
+  }
+}

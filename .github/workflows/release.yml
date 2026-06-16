@@ -1,0 +1,53 @@
+name: release
+
+# Build the one-click binaries and publish them as Release assets whenever a
+# version tag (v*) is pushed. Bun cross-compiles every OS/arch from a single
+# Linux runner, so no per-OS build matrix is needed. The binaries are NOT
+# committed to the repo (they're gitignored) — they live only on the Release.
+#
+# Cut a release:   git tag v0.1.0 && git push origin v0.1.0
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release (e.g. v0.1.0)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Build all binaries (cross-compiled) + Node fallback
+        run: |
+          bun run build:binaries
+          bun run build
+          ls -lh dist/
+
+      - name: Create release and upload assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+        run: |
+          gh release create "$TAG" \
+            --title "$TAG" \
+            --generate-notes \
+            dist/codex-bridge-macos-arm64 \
+            dist/codex-bridge-macos-x64 \
+            dist/codex-bridge-linux-x64 \
+            dist/codex-bridge-linux-arm64 \
+            dist/codex-bridge-windows-x64.exe \
+            dist/codex-bridge.mjs
